@@ -4,6 +4,7 @@ Initial setup:
 
 ```bash
 bundle install
+./bin/setup.rb
 ```
 
 The processor has two components:
