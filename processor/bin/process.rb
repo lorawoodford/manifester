@@ -18,7 +18,7 @@ optparse.parse!
 
 missing = required.select { |param| options[param.to_sym].nil? }
 unless missing.empty?
-  raise OptionParser::MissingArgument, "Required: #{required.join(',')}"
+  raise OptionParser::MissingArgument, "Required: #{missing.join(',')}"
 end
 
 puts "Site: #{options[:site]}"
