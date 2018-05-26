@@ -2,10 +2,10 @@
 class Site
   include Dynamoid::Document
 
-  table :name           => :sites,
-        :key            => :site_id,
-        :read_capacity  => 1,
-        :write_capacity => 1
+  table name:           :sites,
+        key:            :site_id,
+        read_capacity:  1,
+        write_capacity: 1
 
   field :site
   field :manifest
