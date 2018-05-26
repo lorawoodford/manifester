@@ -13,7 +13,7 @@ require_relative '../model/file'
 require_relative '../model/site'
 
 # https://github.com/Dynamoid/Dynamoid#test-environment
-module DynamoidReset
+module DynamoidDestroy
   def self.all
     Dynamoid.adapter.list_tables.each do |table|
       # Only delete tables in our namespace

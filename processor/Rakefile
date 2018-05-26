@@ -1,3 +1,26 @@
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)
 task default: :spec
+
+namespace :manifester do
+  namespace :db do
+    require_relative 'config/db'
+
+    desc 'Destroy DynamoDB tables'
+    task :destroy do
+      if ENV.fetch('MANIFESTER_ENV', 'development') == 'production'
+        raise 'Destroy task should not run in production environment!'
+      end
+      puts "Destroying tables: #{Dynamoid.included_models.map(&:to_s).join(',')}"
+      DynamoidDestroy.all
+      puts 'Done!'
+    end
+
+    desc 'Create DynamoDB tables'
+    task :setup do
+      puts "Creating tables: #{Dynamoid.included_models.map(&:to_s).join(',')}"
+      DynamoidSetup.all
+      puts 'Done!'
+    end
+  end
+end

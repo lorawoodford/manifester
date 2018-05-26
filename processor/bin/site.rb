@@ -73,4 +73,4 @@ site = Site.new(
   data
 )
 site.save
-puts "Done!"
+puts 'Done!'
