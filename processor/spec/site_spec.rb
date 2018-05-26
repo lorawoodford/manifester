@@ -1,5 +1,5 @@
 require 'spec_helper'
-# require_relative '../lib/site'
+# require_relative '../bin/site'
 
 describe 'site' do
   it 'should add 2 + 2' do
