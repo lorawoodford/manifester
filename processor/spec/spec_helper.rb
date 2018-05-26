@@ -7,7 +7,7 @@ end
 RSpec.configure do |config|
   config.color = true
 
-  config.before(:each) do
-    DynamoidReset.all
-  end
+  # config.before(:suite) do
+  #   DynamoidReset.all
+  # end
 end
