@@ -21,8 +21,12 @@ module DynamoidReset
         Dynamoid.adapter.delete_table(table)
       end
     end
-    Dynamoid.adapter.tables.clear
-    # Recreate all tables to avoid unexpected errors
+  end
+end
+
+# create tables for models
+module DynamoidSetup
+  def self.all
     Dynamoid.included_models.each(&:create_table)
   end
 end
