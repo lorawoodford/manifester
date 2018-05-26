@@ -1,6 +1,13 @@
 #!/usr/bin/env ruby
 
-# processes manifest for $site
+# add $site
+# ./bin/site.rb \
+#   --site="demo" \
+#   --manifest="https://archivesspace.lyrasistechnology.org/files/exports/manifest_ead_xml.csv" \
+#   --name="LYRASIS" \
+#   --contact="Mark Cooper" \
+#   --email="example@example.com" \
+#   --timezone="US/New_York"
 
 require          'bcrypt'
 require          'optparse'
@@ -45,7 +52,25 @@ end
 
 optparse.parse!
 
-missing = required.select { |param| options[param].nil? }
+missing = required.select { |param| options[param.to_sym].nil? }
 unless missing.empty?
-  raise OptionParser::MissingArgument, "Required: #{required.join(',')}"
+  raise OptionParser::MissingArgument, "Required: #{missing.join(',')}"
 end
+
+data = {
+  site: options[:site],
+  manifest: options[:manifest],
+  name: options[:name],
+  contact: options[:contact],
+  email: options[:email],
+  timezone: options[:timezone],
+  username: options[:username],
+  password: options[:password]
+}
+
+puts "Creating site: #{data.values.join(',')}"
+site = Site.new(
+  data
+)
+site.save
+puts "Done!"
