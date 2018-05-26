@@ -7,6 +7,8 @@ class Site
         read_capacity:  1,
         write_capacity: 1
 
+  has_many :files
+
   field :site
   field :manifest
   field :name
