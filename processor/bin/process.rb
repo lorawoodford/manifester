@@ -3,7 +3,7 @@
 # processes manifest for $site
 
 require          'optparse'
-require_relative '../lib/db'
+require_relative '../config/db'
 
 options  = {}
 required = ['site']

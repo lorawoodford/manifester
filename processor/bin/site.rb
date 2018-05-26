@@ -4,7 +4,7 @@
 
 require          'bcrypt'
 require          'optparse'
-require_relative '../lib/db'
+require_relative '../config/db'
 
 options  = {}
 required = %w[site manifest name contact email timezone]
