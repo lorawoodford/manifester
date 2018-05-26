@@ -2,4 +2,6 @@ source 'https://rubygems.org'
 
 gem 'aws-sdk', '~>2'
 gem 'dynamoid', '~> 2'
+gem 'rake'
+gem 'rspec'
 gem 'rubocop', require: false
