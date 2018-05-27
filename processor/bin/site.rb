@@ -1,18 +1,5 @@
 #!/usr/bin/env ruby
 
-# add $site
-# ./bin/site.rb \
-#   --site="demo" \
-#   --manifest="https://archivesspace.lyrasistechnology.org/files/exports/manifest_ead_xml.csv" \
-#   --name="LYRASIS" \
-#   --contact="Mark Cooper" \
-#   --email="example@example.com" \
-#   --timezone="US/New_York" \
-#   --add
-
-# delete $site
-# ./bin/site.rb --site="demo" --delete
-
 require          'bcrypt'
 require          'optparse'
 require_relative '../config/db'
