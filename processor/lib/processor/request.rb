@@ -1,9 +1,18 @@
 require 'curb'
+require 'tempfile'
 
 module Manifester
   module Processor
     # perform http requests
     module Request
+      # Manifester::Processor::Request.download(url)
+      def self.download(url)
+        tmp = Tempfile.new
+        c   = Curl::Easy.perform(url)
+        tmp << c.body_str
+        tmp.flush
+      end
+
       # Manifester::Processor::Request.get_status(url)
       def self.get_status(url)
         status = 200

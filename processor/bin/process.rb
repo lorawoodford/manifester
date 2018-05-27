@@ -30,3 +30,5 @@ if site.status != status
 end
 
 raise "Manifest error: #{site.manifest},#{status}" unless status == 200
+
+csv = Manifester::Processor::Request.download(site.manifest)
