@@ -47,4 +47,5 @@ begin
   end
 ensure
   manifest.close
+  manifest.unlink
 end
