@@ -2,13 +2,12 @@ require 'curb'
 
 module Manifester
   module Processor
+    # perform http requests
     module Request
       # Manifester::Processor::Request.get_status(url)
       def self.get_status(url)
         status = 200
-        c = Curl::Easy.new(url) do |curl|
-          curl.head = true
-        end
+        c = Curl::Easy.new(url) { |curl| curl.head = true }
         begin
           c.perform
           status = c.response_code
