@@ -21,4 +21,12 @@ unless missing.empty?
   raise OptionParser::MissingArgument, "Required: #{missing.join(',')}"
 end
 
-puts "Site: #{options[:site]}"
+site = Site.where(site: options[:site]).consistent.first
+raise "Site not found: #{options[:site]}" unless site
+
+status = Manifester::Processor::Request.get_status(site.manifest)
+if site.status != status
+  # update status
+end
+
+raise "Manifest error: #{site.manifest},#{status}" unless status == 200
