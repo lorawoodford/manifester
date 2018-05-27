@@ -91,6 +91,9 @@ if options[:add]
     password: pass
   }
 
+  site = Site.where(site: data[:site]).consistent.first
+  raise "Skipping duplicate site: #{site.inspect}" if site
+
   puts "Creating site: #{data.values.join(',')}"
   site = Site.new(
     data
