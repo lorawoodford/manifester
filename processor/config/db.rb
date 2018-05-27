@@ -15,6 +15,9 @@ end
 require_relative '../model/file'
 require_relative '../model/site'
 
+# load lib
+require_relative '../lib/processor/request'
+
 # https://github.com/Dynamoid/Dynamoid#test-environment
 module DynamoidDestroy
   def self.all

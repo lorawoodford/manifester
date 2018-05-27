@@ -86,6 +86,7 @@ if options[:add]
     contact: options[:contact],
     email: options[:email],
     timezone: options[:timezone],
+    status: Manifester::Processor::Request.get_status(options[:manifest]),
     username: options[:username],
     password: pass
   }
