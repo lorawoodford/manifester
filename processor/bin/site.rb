@@ -7,16 +7,31 @@
 #   --name="LYRASIS" \
 #   --contact="Mark Cooper" \
 #   --email="example@example.com" \
-#   --timezone="US/New_York"
+#   --timezone="US/New_York" \
+#   --add
+
+# delete $site
+# ./bin/site.rb --site="demo" --delete
 
 require          'bcrypt'
 require          'optparse'
 require_relative '../config/db'
 
-options  = {}
-required = %w[site manifest name contact email timezone]
+options      = {}
+required_add = %w[site manifest name contact email timezone]
+required_del = %w[site]
 
 optparse = OptionParser.new do |opts|
+  opts.banner = 'Usage: site.rb [options]'
+
+  opts.on('-a', '--[no-]add', 'Add site') do |a|
+    options[:add] = a
+  end
+
+  opts.on('-d', '--[no-]delete', 'Delete site') do |d|
+    options[:delete] = d
+  end
+
   opts.on('-s', '--site SITE', 'Site code') do |site|
     options[:site] = site
   end
@@ -52,25 +67,40 @@ end
 
 optparse.parse!
 
-missing = required.select { |param| options[param.to_sym].nil? }
+unless options[:add] || options[:delete]
+  raise OptionParser::MissingArgument, 'Required: --add or --delete [options]'
+end
+
+required = options[:add] ? required_add : required_del
+missing  = required.select { |param| options[param.to_sym].nil? }
 unless missing.empty?
   raise OptionParser::MissingArgument, "Required: #{missing.join(',')}"
 end
 
-data = {
-  site: options[:site],
-  manifest: options[:manifest],
-  name: options[:name],
-  contact: options[:contact],
-  email: options[:email],
-  timezone: options[:timezone],
-  username: options[:username],
-  password: options[:password]
-}
+if options[:add]
+  pass = options[:password] ? BCrypt::Password.create(options[:password]) : nil
+  data = {
+    site: options[:site],
+    manifest: options[:manifest],
+    name: options[:name],
+    contact: options[:contact],
+    email: options[:email],
+    timezone: options[:timezone],
+    username: options[:username],
+    password: pass
+  }
 
-puts "Creating site: #{data.values.join(',')}"
-site = Site.new(
-  data
-)
-site.save
-puts 'Done!'
+  puts "Creating site: #{data.values.join(',')}"
+  site = Site.new(
+    data
+  )
+  site.save
+  site = Site.where(site: data[:site]).consistent.first
+  puts "Done! Created: #{site.site}"
+else
+  site = options[:site]
+  puts "Deleting site: #{site}"
+
+  result = Site.where(site: site).delete_all
+  puts "Done! Deleted: #{result.count} items."
+end
