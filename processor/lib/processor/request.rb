@@ -10,7 +10,8 @@ module Manifester
         tmp = Tempfile.new
         c   = Curl::Easy.perform(url)
         tmp << c.body_str
-        tmp.flush
+        tmp.rewind
+        tmp
       end
 
       # Manifester::Processor::Request.get_status(url)
