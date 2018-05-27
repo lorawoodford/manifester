@@ -15,6 +15,7 @@ class Site
   field :contact
   field :email
   field :timezone
+  field :status, :integer, default: 200
   field :username
   field :password
 end
