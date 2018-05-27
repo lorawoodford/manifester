@@ -2,6 +2,7 @@
 
 # processes manifest for $site
 
+require          'csv'
 require          'optparse'
 require_relative '../config/db'
 
@@ -31,4 +32,19 @@ end
 
 raise "Manifest error: #{site.manifest},#{status}" unless status == 200
 
-csv = Manifester::Processor::Request.download(site.manifest)
+begin
+  manifest = Manifester::Processor::Request.download(site.manifest)
+  CSV.foreach(manifest.path, headers: true) do |row|
+    data = row.to_hash
+    puts data
+    # normalize csv (set defaults etc.)
+
+    # look for existing row
+    # File.exists?(data['location'])
+    # add if not exists
+    # update if exists
+    # update status
+  end
+ensure
+  manifest.close
+end
