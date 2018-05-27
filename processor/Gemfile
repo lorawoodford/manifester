@@ -6,3 +6,4 @@ gem 'dynamoid', '~> 2'
 gem 'rake'
 gem 'rspec'
 gem 'rubocop', require: false
+gem 'webmock'

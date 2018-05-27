@@ -35,6 +35,12 @@ module DynamoidSetup
   def self.all
     Dynamoid.included_models.each(&:create_table)
   end
+
+  def self.tests
+    Dynamoid.included_models.each do |model|
+      model.create_table(sync: true)
+    end
+  end
 end
 
 # Reduce noise in test output
