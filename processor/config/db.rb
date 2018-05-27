@@ -2,10 +2,13 @@ require 'aws-sdk'
 require 'dynamoid'
 
 Dynamoid.configure do |config|
+  env = ENV.fetch('MANIFESTER_ENV', 'development')
+  grp = ENV.fetch('MANIFESTER_GRP', 'general')
+
   config.access_key = ENV.fetch('MANIFESTER_AWS_ACCESS_KEY_ID')
   config.secret_key = ENV.fetch('MANIFESTER_AWS_SECRET_ACCESS_KEY')
   config.region     = ENV.fetch('MANIFESTER_AWS_REGION', 'us-west-2')
-  config.namespace  = "manifester_#{ENV.fetch('MANIFESTER_ENV', 'development')}"
+  config.namespace  = "manifester_#{grp}_#{env}"
 end
 
 # load models
