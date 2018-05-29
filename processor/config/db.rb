@@ -23,6 +23,7 @@ require_relative '../model/site'
 
 # load lib
 require_relative '../lib/processor/request'
+require_relative '../lib/processor/site'
 
 # https://github.com/Dynamoid/Dynamoid#test-environment
 module DynamoidDestroy

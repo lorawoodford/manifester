@@ -78,20 +78,16 @@ if options[:add]
     password: pass
   }
 
-  site = Site.where(site: data[:site]).consistent.first
-  raise "Skipping duplicate site: #{site.inspect}" if site
+  site = Manifester::Processor::Site.new(data)
+  raise "Skipping duplicate site: #{site.inspect}" if site.exists?
 
   puts "Creating site: #{data.values.join(',')}"
-  site = Site.new(
-    data
-  )
-  site.save
-  site = Site.where(site: data[:site]).consistent.first
+  site = site.create!
   puts "Done! Created: #{site.site}"
 else
   site = options[:site]
   puts "Deleting site: #{site}"
 
-  result = Site.where(site: site).delete_all
+  result = Manifester::Processor::Site.delete!(site)
   puts "Done! Deleted: #{result.count} items."
 end
