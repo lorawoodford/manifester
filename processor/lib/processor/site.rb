@@ -1,6 +1,3 @@
-require 'curb'
-require 'tempfile'
-
 module Manifester
   module Processor
     class Site

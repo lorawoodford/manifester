@@ -1,6 +1,8 @@
 require 'active_support/core_ext/time'
 require 'aws-sdk'
+require 'curb'
 require 'dynamoid'
+require 'tempfile'
 
 Dynamoid.configure do |config|
   env = ENV.fetch('MANIFESTER_ENV', 'development')
