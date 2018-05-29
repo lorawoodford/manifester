@@ -3,16 +3,16 @@ class File
   include Dynamoid::Document
 
   table name:           :files,
-        key:            :file_id,
+        key:            :type,
+        range_key:      :timestamp,
         read_capacity:  1,
         write_capacity: 1
 
-  belongs_to :site
-
+  field :site
   field :url
   field :title
   field :deleted, :boolean, default: false, store_as_native_boolean: true
+  field :timestamp, :integer, range: true
   field :status, :integer, default: 200
-
-  range :timestamp
+  field :type, :string, default: 'ead_xml' # base key for sorting
 end

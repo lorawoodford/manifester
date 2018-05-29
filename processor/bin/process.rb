@@ -39,6 +39,9 @@ begin
     puts data
     # normalize csv (set defaults etc.)
 
+    # t = Time.parse(data[:updated_at])
+    # timestamp = ActiveSupport::TimeZone.new(site.timezone).local_to_utc(t).to_i
+
     # look for existing row
     # File.exists?(data['location'])
     # add if not exists

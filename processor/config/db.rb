@@ -1,3 +1,4 @@
+require 'active_support/core_ext/time'
 require 'aws-sdk'
 require 'dynamoid'
 

@@ -3,11 +3,9 @@ class Site
   include Dynamoid::Document
 
   table name:           :sites,
-        key:            :site_id,
+        key:            :site,
         read_capacity:  1,
         write_capacity: 1
-
-  has_many :files
 
   field :site
   field :manifest
