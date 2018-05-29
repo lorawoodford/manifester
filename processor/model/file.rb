@@ -12,6 +12,7 @@ class File
   field :url
   field :title
   field :deleted, :boolean, default: false, store_as_native_boolean: true
-  field :timestamp
   field :status, :integer, default: 200
+
+  range :timestamp
 end
