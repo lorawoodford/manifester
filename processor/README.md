@@ -4,17 +4,22 @@ Initial setup for development:
 
 ```bash
 bundle install
+./bin/dynamodb.rb --start
 ./bin/setup.rb
 ```
 
-This will create two tables in DynamoDB, by default:
+This will create two tables in DynamoDB on `http://localhost:8000`:
 
 - `manifester_general_development_files`
 - `manifester_general_development_sites`
 
+To stop DynamoDB use: `./bin/dynamodb.rb --stop`
+
+## Overview
+
 The processor has two components:
 
-## SITE
+### SITE
 
 Add or delete sites with manifests to process.
 
@@ -33,13 +38,21 @@ Add or delete sites with manifests to process.
 ./bin/site.rb --site="demo" --delete
 ```
 
-## PROCESS
+### PROCESS
 
 Process a site manifest.
 
+## Test
+
+The tests require DynamoDB local: `./bin/dynamodb.rb --start`
+
+The tests be run anytime and will not interfere with `development` data as
+separate tables are created and destroyed for test runs.
+
 ## Production
 
-Docker is recommended for production use:
+Docker is recommended for production use (and the environment is set to
+production by default in the `Dockerfile`):
 
 ```bash
 docker build -t manifester/processor .
