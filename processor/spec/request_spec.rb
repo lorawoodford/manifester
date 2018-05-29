@@ -8,7 +8,7 @@ describe 'Manifester::Processor::Request' do
     ).to_return(status: status)
   end
 
-  let(:manifest) { "https://archivesspace.lyrasistechnology.org/files/exports/manifest_ead_xml.csv" }
+  let(:manifest) { 'https://archivesspace.lyrasistechnology.org/files/exports/manifest_ead_xml.csv' }
 
   describe 'Download' do
     it 'should download content to a temp file' do
