@@ -9,6 +9,11 @@ Dynamoid.configure do |config|
   config.secret_key = ENV.fetch('MANIFESTER_AWS_SECRET_ACCESS_KEY')
   config.region     = ENV.fetch('MANIFESTER_AWS_REGION', 'us-west-2')
   config.namespace  = "manifester_#{grp}_#{env}"
+
+  if env != 'production'
+    config.endpoint = "http://localhost:#{ENV.fetch('MANIFESTER_DDB_LOCAL_PORT', 8000)}"
+    puts "Using DynamoDB local: #{config.endpoint}"
+  end
 end
 
 # load models
