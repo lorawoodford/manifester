@@ -38,7 +38,10 @@ begin
     data = row.to_hash
     file = Manifester::Processor::File.new(site, data)
     if file.exists?
-      puts "Updated existing file: #{file.location}"
+      if file.requires_update?
+        file = file.update!
+        puts "Updated existing file: #{file.url}"
+      end
     else
       file = file.create!
       puts "Created: #{file.url}"

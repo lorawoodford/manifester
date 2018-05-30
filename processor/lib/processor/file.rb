@@ -50,7 +50,11 @@ module Manifester
 
       def requires_update?
         return nil unless @file
-        @file.timestamp < @data[:timestamp] or @file.deleted != @data[:deleted]
+        update = false
+        update = true if @file.timestamp < @data[:timestamp]
+        update = true if @file.deleted != @data[:deleted]
+        update = true if @file.status != @data[:status]
+        update
       end
 
       def timestamp(timezone, updated_at)
