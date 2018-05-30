@@ -15,4 +15,6 @@ class File
   field :timestamp, :integer, range: true
   field :status, :integer, default: 200
   field :type, :string, default: 'ead_xml' # base key for sorting
+
+  validates_presence_of :site, :url, :timestamp
 end
