@@ -11,6 +11,18 @@ module Manifester
         ManifestFile.where(key => value).all
       end
 
+      # Manifester::Processor::File.since timestamp
+      def self.since(timestamp, &block)
+        query = { 'timestamp.gte' => timestamp, status: 200 }
+        if block_given?
+          ManifestFile.where(query).all.each do |file|
+            yield file
+          end
+        else
+          ManifestFile.where(query).all
+        end
+      end
+
       def initialize(site, data)
         @location = data[:location]
         @data     = {}.merge(data)

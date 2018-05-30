@@ -90,6 +90,23 @@ describe 'File' do
     expect(Manifester::Processor::File.find('timestamp.gte', updated_at_timestamp).count).to eq 1
   end
 
+  it 'should be able to find a file using since timestamp' do
+    expect(Manifester::Processor::File.since(timestamp).count).to eq 1
+  end
+
+  it 'should be able to find a file using since timestamp and yield' do
+    Manifester::Processor::File.since(timestamp) do |file|
+      expect(file.title).to eq data[:title]
+    end
+  end
+
+  it 'should not be able to find a file using since timestamp with bad status' do
+    file = Manifester::Processor::File.since(timestamp).first
+    file.status = 404
+    file.save
+    expect(Manifester::Processor::File.since(timestamp).count).to eq 0
+  end
+
   it 'should be able to delete a file' do
     expect(Manifester::Processor::File.delete!(data[:location]).count).to eq 1
   end

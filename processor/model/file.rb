@@ -15,7 +15,6 @@ class ManifestFile
   field :deleted, :boolean, default: false, store_as_native_boolean: true
   field :timestamp, :integer
   field :status, :integer, default: 200
-  field :type, :string # base key for sorting
 
-  validates_presence_of :site, :timestamp
+  validates_presence_of :site, :timestamp, :url
 end
