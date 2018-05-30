@@ -38,6 +38,7 @@ module Manifester
         @data[:site]      = @site.site
         @data[:deleted]   = @data[:deleted] =~ /[Tt](rue)*/ ? true : false
         @data[:timestamp] = timestamp(@site.timezone, @data[:updated_at])
+        @data[:status] = Manifester::Processor::Request.get_status(@data[:url])
 
         @data.delete :location
         @data.delete :updated_at
@@ -58,8 +59,7 @@ module Manifester
       end
 
       def update!
-        # TODO
-        @file.update_fields(@data, if: { "timestamp.lt" => @data[:timestamp] })
+        @file.update_attributes(@data)
         refresh
       end
 

@@ -14,6 +14,7 @@ module Manifester
       def initialize(data)
         @data = data
         @site = nil
+        prepare
       end
 
       def create!
@@ -26,6 +27,10 @@ module Manifester
 
       def exists?
         refresh
+      end
+
+      def prepare
+        @data[:status] = Manifester::Processor::Request.get_status(@data[:manifest])
       end
 
       def refresh

@@ -14,6 +14,15 @@ describe 'File' do
     }
   }
   let(:timestamp) { 1527224400 }
+  let(:updated_at) { Time.now }
+  let(:updated_at_timestamp) { updated_at.to_i }
+
+  before(:each) do
+    stub_request(
+      :head,
+      "https://archivesspace.lyrasistechnology.org/files/exports/0246.001.xml"
+    ).to_return(status: 200, body: "", headers: {})
+  end
 
   it 'should not be found until created' do
     expect(
@@ -41,6 +50,14 @@ describe 'File' do
     expect(Manifester::Processor::File.find(:title, 'ABCXYZ').count).to eq 0
   end
 
+  it 'should be able to find a file by date' do
+    expect(Manifester::Processor::File.find('timestamp.gte', timestamp).count).to eq 1
+  end
+
+  it 'should not be able to find a file by a later date' do
+    expect(Manifester::Processor::File.find('timestamp.gte', updated_at_timestamp).count).to eq 0
+  end
+
   it 'should not require an update with default data' do
     file = Manifester::Processor::File.new(site, data)
     file.refresh
@@ -54,9 +71,23 @@ describe 'File' do
   end
 
   it 'should require an update with updated_at attribute update' do
-    file = Manifester::Processor::File.new(site, data.merge({ updated_at: '25-May-2018 22:00' }))
+    file = Manifester::Processor::File.new(site, data.merge({ updated_at: updated_at.to_s }))
     file.refresh
     expect(file.requires_update?).to be true
+  end
+
+  it 'should update file' do
+    file = Manifester::Processor::File.new(site, data)
+    file = file.create!
+    expect(file.timestamp).to eq timestamp
+    file = Manifester::Processor::File.new(site, data.merge({ updated_at: updated_at.to_s }))
+    file.refresh
+    file = file.update!
+    expect(file.timestamp).to eq updated_at_timestamp
+  end
+
+  it 'should be able to find a file by the updated date' do
+    expect(Manifester::Processor::File.find('timestamp.gte', updated_at_timestamp).count).to eq 1
   end
 
   it 'should be able to delete a file' do

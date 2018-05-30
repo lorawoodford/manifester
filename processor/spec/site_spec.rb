@@ -12,6 +12,13 @@ describe 'Site' do
     }
   }
 
+  before(:each) do
+    stub_request(
+      :head,
+      "https://archivesspace.lyrasistechnology.org/files/exports/manifest_ead_xml.csv"
+    ).to_return(status: 200, body: "", headers: {})
+  end
+
   it 'should not be found until created' do
     expect(
       Manifester::Processor::Site.new(data).exists?
