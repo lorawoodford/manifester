@@ -6,6 +6,9 @@ Initial setup for development:
 bundle install
 ./bin/dynamodb.rb --start
 ./bin/setup.rb
+
+# or use the quickstart
+./quickstart.sh
 ```
 
 This will create two tables in DynamoDB on `http://localhost:8000`:
