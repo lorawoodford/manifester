@@ -18,5 +18,5 @@ class ManifestSite
   field :password
 
   validates_presence_of :site, :manifest, :name, :contact, :email, :timezone
-  validates_format_of :email, :with => /@/
+  validates_format_of :email, with: /@/
 end

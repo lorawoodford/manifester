@@ -1,22 +1,22 @@
 require 'spec_helper'
 
 describe 'Site' do
-  let(:data) {
+  let(:data) do
     {
       site: 'demo',
-      manifest: "https://archivesspace.lyrasistechnology.org/files/exports/manifest_ead_xml.csv",
-      name: "LYRASIS",
-      contact: "Mark Cooper",
-      email: "example@example.com",
-      timezone: "America/New_York",
+      manifest: 'https://archivesspace.lyrasistechnology.org/files/exports/manifest_ead_xml.csv',
+      name: 'LYRASIS',
+      contact: 'Mark Cooper',
+      email: 'example@example.com',
+      timezone: 'America/New_York'
     }
-  }
+  end
 
   before(:each) do
     stub_request(
       :head,
-      "https://archivesspace.lyrasistechnology.org/files/exports/manifest_ead_xml.csv"
-    ).to_return(status: 200, body: "", headers: {})
+      'https://archivesspace.lyrasistechnology.org/files/exports/manifest_ead_xml.csv'
+    ).to_return(status: 200, body: '', headers: {})
   end
 
   it 'should not be found until created' do

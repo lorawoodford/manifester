@@ -19,11 +19,11 @@ end
 optparse.parse!
 
 if options[:start]
-  puts "Starting DynamoDB local"
+  puts 'Starting DynamoDB local'
   system('docker run -d --name dynamodb -p 8000:8000 instructure/dynamo-local-admin')
 end
 
 if options[:stop]
-  puts "Stopping DynamoDB local"
+  puts 'Stopping DynamoDB local'
   system('docker stop dynamodb && docker rm dynamodb')
 end

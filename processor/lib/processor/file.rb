@@ -12,7 +12,7 @@ module Manifester
       end
 
       # Manifester::Processor::File.since timestamp
-      def self.since(timestamp, &block)
+      def self.since(timestamp)
         query = { 'timestamp.gte' => timestamp, status: 200 }
         if block_given?
           ManifestFile.where(query).all.each do |file|
@@ -78,7 +78,6 @@ module Manifester
         @file.update_attributes(@data)
         refresh
       end
-
     end
   end
 end

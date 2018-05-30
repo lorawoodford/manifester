@@ -36,7 +36,6 @@ module Manifester
       def refresh
         @site = ManifestSite.where(site: @data[:site]).consistent.first
       end
-
     end
   end
 end
