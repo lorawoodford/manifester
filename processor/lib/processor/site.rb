@@ -4,32 +4,32 @@ module Manifester
       attr_reader :data, :site
 
       def self.delete!(site)
-        ::Site.where(site: site).delete_all
+        ManifestSite.where(site: site).delete_all
       end
 
       def self.find(key, value)
-        ::Site.where(key => value).all
+        ManifestSite.where(key => value).all
       end
 
       def initialize(data)
         @data = data
-        @site = refresh
+        @site = nil
       end
 
       def create!
         unless exists?
-          @site = ::Site.new(@data)
+          @site = ManifestSite.new(@data)
           @site.save
         end
         refresh
       end
 
       def exists?
-        @site
+        refresh
       end
 
       def refresh
-        ::Site.where(site: @data[:site]).consistent.first
+        @site = ManifestSite.where(site: @data[:site]).consistent.first
       end
 
     end

@@ -1,49 +1,66 @@
 module Manifester
   module Processor
     class File
-      attr_reader :data, :valid
+      attr_reader :data, :file, :location, :site
 
       def self.delete!(location)
-        ::File.where(location: location).delete_all
+        ManifestFile.where(url: location).delete_all
       end
 
       def self.find(key, value)
-        ::File.where(key => value).all
+        ManifestFile.where(key => value).all
       end
 
       def initialize(site, data)
-        @data  = prepare(site, data)
-        @file  = refresh
-        @site  = site
+        @location = data[:location]
+        @data     = {}.merge(data)
+        @file     = nil
+        @site     = site
+        prepare
       end
 
       def create!
         unless exists?
-          @file = ::File.new(@data)
+          @file = ManifestFile.new(@data)
           @file.save
         end
         refresh
       end
 
       def exists?
-        @file
+        refresh
       end
 
-      def prepare(site, data)
+      def prepare
         # URI.parse(data[:location])
         # Time.parse(data[:updated_at])
-        data[:site]       = site.site
-        data[:updated_at] = timestamp(site.timezone, data[:updated_at])
-        data
+        @data[:url]       = @location
+        @data[:site]      = @site.site
+        @data[:deleted]   = @data[:deleted] =~ /[Tt](rue)*/ ? true : false
+        @data[:timestamp] = timestamp(@site.timezone, @data[:updated_at])
+
+        @data.delete :location
+        @data.delete :updated_at
       end
 
       def refresh
-        ::File.where(site: @data[:location]).consistent.first
+        @file = ManifestFile.where(url: @location).consistent.first
+      end
+
+      def requires_update?
+        return nil unless @file
+        @file.timestamp < @data[:timestamp] or @file.deleted != @data[:deleted]
       end
 
       def timestamp(timezone, updated_at)
         t = Time.parse updated_at
-        ActiveSupport::TimeZone.new(timezone).local_to_utc(t).to_i
+        TZInfo::Timezone.get(timezone).local_to_utc(t).to_i
+      end
+
+      def update!
+        # TODO
+        @file.update_fields(@data, if: { "timestamp.lt" => @data[:timestamp] })
+        refresh
       end
 
     end

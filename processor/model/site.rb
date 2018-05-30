@@ -1,9 +1,9 @@
 # SITE
-class Site
+class ManifestSite
   include Dynamoid::Document
 
   table name:           :sites,
-        key:            :site,
+        key:            :site_id,
         read_capacity:  1,
         write_capacity: 1
 

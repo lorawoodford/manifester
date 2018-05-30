@@ -31,7 +31,7 @@ Add or delete sites with manifests to process.
   --name="LYRASIS" \
   --contact="Mark Cooper" \
   --email="example@example.com" \
-  --timezone="US/New_York" \
+  --timezone="America/New_York" \
   --add
 
 # delete $site
@@ -41,6 +41,10 @@ Add or delete sites with manifests to process.
 ### PROCESS
 
 Process a site manifest.
+
+```bash
+./bin/process.rb --site="demo"
+```
 
 ## Test
 
@@ -83,7 +87,7 @@ Create a site:
     --name="LYRASIS" \
     --contact="Mark Cooper" \
     --email="example@example.com" \
-    --timezone="US/New_York" \
+    --timezone="America/New_York" \
     --add
 ```
 

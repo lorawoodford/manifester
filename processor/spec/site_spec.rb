@@ -8,7 +8,7 @@ describe 'Site' do
       name: "LYRASIS",
       contact: "Mark Cooper",
       email: "example@example.com",
-      timezone: "US/New_York",
+      timezone: "America/New_York",
     }
   }
 

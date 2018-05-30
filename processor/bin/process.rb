@@ -34,15 +34,15 @@ raise "Manifest error: #{site.manifest},#{status}" unless status == 200
 
 begin
   manifest = Manifester::Processor::Request.download(site.manifest)
-  CSV.foreach(manifest.path, headers: true) do |row|
+  CSV.foreach(manifest.path, headers: true, header_converters: :symbol) do |row|
     data = row.to_hash
-    puts data
-
-    # look for existing row
-    # File.exists?(data['location'])
-    # add if not exists
-    # update if exists
-    # update status
+    file = Manifester::Processor::File.new(site, data)
+    if file.exists?
+      puts "Updated existing file: #{file.location}"
+    else
+      file = file.create!
+      puts "Created: #{file.url}"
+    end
   end
 ensure
   manifest.close

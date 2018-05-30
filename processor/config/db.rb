@@ -1,9 +1,9 @@
-require 'active_support/core_ext/time'
 require 'aws-sdk'
 require 'curb'
 require 'dynamoid'
 require 'tempfile'
 require 'time'
+require 'tzinfo'
 
 Dynamoid.configure do |config|
   env = ENV.fetch('MANIFESTER_ENV', 'development')
@@ -25,6 +25,7 @@ require_relative '../model/file'
 require_relative '../model/site'
 
 # load lib
+require_relative '../lib/processor/file'
 require_relative '../lib/processor/request'
 require_relative '../lib/processor/site'
 
@@ -37,6 +38,7 @@ module DynamoidDestroy
         Dynamoid.adapter.delete_table(table)
       end
     end
+    Dynamoid.adapter.tables.clear
   end
 end
 
