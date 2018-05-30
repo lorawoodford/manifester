@@ -22,7 +22,7 @@ unless missing.empty?
   raise OptionParser::MissingArgument, "Required: #{missing.join(',')}"
 end
 
-site = Site.where(site: options[:site]).consistent.first
+site = Manifester::Processor::Site.find(:site, options[:site]).first
 raise "Site not found: #{options[:site]}" unless site
 
 status = Manifester::Processor::Request.get_status(site.manifest)
@@ -37,10 +37,6 @@ begin
   CSV.foreach(manifest.path, headers: true) do |row|
     data = row.to_hash
     puts data
-    # normalize csv (set defaults etc.)
-
-    # t = Time.parse(data[:updated_at])
-    # timestamp = ActiveSupport::TimeZone.new(site.timezone).local_to_utc(t).to_i
 
     # look for existing row
     # File.exists?(data['location'])
