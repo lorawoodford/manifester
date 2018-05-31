@@ -4,6 +4,8 @@ Initial setup for development:
 
 ```bash
 bundle install
+
+# fire the things up
 ./bin/dynamodb.rb --start
 ./bin/setup.rb
 
