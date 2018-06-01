@@ -25,7 +25,7 @@ module Manifester
 
       def initialize(site, data)
         @location = data[:location]
-        @data     = {}.merge(data)
+        @data     = {}.merge(data) # new hash, not ref
         @file     = nil
         @site     = site
         prepare
@@ -46,15 +46,15 @@ module Manifester
       def prepare
         # URI.parse(data[:location])
         # Time.parse(data[:updated_at])
-        @data[:url]       = @location
-        @data[:site]      = @site.site
-        @data[:deleted]   = @data[:deleted] =~ /[Tt](rue)*/ ? true : false
+        @data[:url]     = @location
+        @data[:site]    = @site.site
+        @data[:deleted] = @data[:deleted] =~ /[Tt](rue)*/ ? true : false
+        @data[:status]  = Manifester::Processor::Request.get_status(@data[:url])
 
-        unless @data[:updated_at]
+        if @data[:status] == 200 and @data[:updated_at].nil?
           @data[:updated_at] = Manifester::Processor::Request.get_modified(url)
         end
         @data[:timestamp] = timestamp(@site.timezone, @data[:updated_at])
-        @data[:status] = Manifester::Processor::Request.get_status(@data[:url])
 
         @data.delete :location
         @data.delete :updated_at
