@@ -49,6 +49,10 @@ module Manifester
         @data[:url]       = @location
         @data[:site]      = @site.site
         @data[:deleted]   = @data[:deleted] =~ /[Tt](rue)*/ ? true : false
+
+        unless @data[:updated_at]
+          @data[:updated_at] = Manifester::Processor::Request.get_modified(url)
+        end
         @data[:timestamp] = timestamp(@site.timezone, @data[:updated_at])
         @data[:status] = Manifester::Processor::Request.get_status(@data[:url])
 
